@@ -21,7 +21,7 @@ def create_pipe():
 
 def move_pipes(pipes):
 	for pipe in pipes:
-		pipe.centerx -= 5
+		pipe.centerx -= 2
 	visible_pipes = [pipe for pipe in pipes if pipe.right > -50]
 	return visible_pipes
 
@@ -34,14 +34,11 @@ def draw_pipes(pipes):
 			screen.blit(flip_pipe,pipe)
 
 def check_collision(pipes):
-	global can_score
 	for pipe in pipes:
 		if bird_rect.colliderect(pipe):
-			can_score = True
 			return False
 
 	if bird_rect.top <= -100 or bird_rect.bottom >= 900:
-		can_score = True
 		return False
 
 	return True
@@ -50,9 +47,6 @@ pygame.init
 gravity = 0.25
 bird_movement = 0
 game_active = True
-score = 0
-high_score = 0
-can_score = True
 screen = pygame.display.set_mode((400,700))
 clock = pygame.time.Clock()
 
@@ -77,7 +71,7 @@ pipe_surface = pygame.image.load('assets/pipe-green.png')
 pipe_surface = pygame.transform.scale2x(pipe_surface)
 pipe_list = []
 SPAWNPIPE = pygame.USEREVENT
-pygame.time.set_timer(SPAWNPIPE,1200)
+pygame.time.set_timer(SPAWNPIPE,1600)
 pipe_height = [250,400,550]
 
 game_over_surface = pygame.transform.scale2x(pygame.image.load('assets/message.png').convert_alpha())
@@ -91,13 +85,13 @@ while True :
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE : 
                 bird_movement = 0
-                bird_movement -= 9
+                bird_movement -= 6
             if event.key == pygame.K_SPACE and game_active == False:
                 game_active = True
                 bird_rect.center = (70,350)
                 pipe_list.clear()
                 bird_movement = 0
-                bird_movement -= 9
+                bird_movement -= 6
 
         if event.type == BIRDFLAP:
             if bird_index < 2:
